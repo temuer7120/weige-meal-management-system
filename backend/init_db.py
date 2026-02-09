@@ -12,8 +12,8 @@ import sys
 # 数据库连接配置
 DB_CONFIG = {
     'host': 'localhost',
-    'user': 'MySQL',
-    'password': 'MySQL',
+    'user': 'root',
+    'password': 'root',
     'database': 'meal_system'
 }
 

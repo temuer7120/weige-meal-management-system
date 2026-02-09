@@ -1,88 +1,71 @@
 <template>
   <el-container>
-    <!-- 侧边栏导航 -->
-    <el-aside :class="{ collapsed: isCollapsed }">
+    <!-- 顶部导航 -->
+    <el-header class="top-header">
       <div class="logo">
-        <h1 v-if="!isCollapsed">餐食管理系统</h1>
-        <h1 v-else>餐管</h1>
+        <h1>公司管理系统</h1>
       </div>
-      <el-menu
-        :default-active="activeMenu"
-        class="el-menu-vertical-demo"
-        @select="handleMenuSelect"
-        :collapse="isCollapsed"
-      >
-        <el-menu-item index="/">
-          <i class="el-icon-s-home"></i>
-          <span slot="title">仪表盘</span>
-        </el-menu-item>
-        <el-menu-item index="/ingredients">
-          <i class="el-icon-s-grid"></i>
-          <span slot="title">食材管理</span>
-        </el-menu-item>
-        <el-menu-item index="/dishes">
-          <i class="el-icon-s-food"></i>
-          <span slot="title">菜品管理</span>
-        </el-menu-item>
-        <el-menu-item index="/menus">
-          <i class="el-icon-s-order"></i>
-          <span slot="title">菜单管理</span>
-        </el-menu-item>
-        <el-menu-item index="/orders">
-          <i class="el-icon-s-marketing"></i>
-          <span slot="title">订单管理</span>
-        </el-menu-item>
-        <el-menu-item index="/employees">
-          <i class="el-icon-user"></i>
-          <span slot="title">员工管理</span>
-        </el-menu-item>
-        <el-menu-item index="/statistics">
-          <i class="el-icon-data-analysis"></i>
-          <span slot="title">统计分析</span>
-        </el-menu-item>
-        <el-menu-item index="/financial">
-          <i class="el-icon-money"></i>
-          <span slot="title">财务管理</span>
-        </el-menu-item>
-        <el-menu-item index="/mother-baby">
-          <i class="el-icon-sugar"></i>
-          <span slot="title">母婴服务</span>
-        </el-menu-item>
-        <el-menu-item index="/system" v-if="isAdmin">
-          <i class="el-icon-setting"></i>
-          <span slot="title">系统管理</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
+      <div class="main-nav">
+        <el-menu
+          :default-active="activeMenu"
+          class="el-menu-horizontal"
+          mode="horizontal"
+          @select="handleMenuSelect"
+          background-color="#303133"
+          text-color="#fff"
+          active-text-color="#409eff"
+          :router="true"
+        >
+          <el-menu-item index="/">
+            <el-icon><House /></el-icon>
+            <span>仪表盘</span>
+          </el-menu-item>
+          
+          <!-- 月子餐下拉菜单 -->
+          <el-sub-menu index="月子餐">
+            <template #title>
+              <el-icon><MugCup /></el-icon>
+              <span>月子餐</span>
+            </template>
+            <el-menu-item index="/ingredients">食材管理</el-menu-item>
+            <el-menu-item index="/dishes">菜品管理</el-menu-item>
+            <el-menu-item index="/menus">菜单管理</el-menu-item>
+            <el-menu-item index="/mother-baby">母婴服务</el-menu-item>
+            <el-menu-item index="/orders">订单管理</el-menu-item>
+          </el-sub-menu>
+          
+          <!-- 公司管理下拉菜单 -->
+          <el-sub-menu index="公司管理">
+            <template #title>
+              <el-icon><OfficeBuilding /></el-icon>
+              <span>公司管理</span>
+            </template>
+            <el-menu-item index="/employees">员工管理</el-menu-item>
+            <el-menu-item index="/financial">财务管理</el-menu-item>
+            <el-menu-item index="/statistics">统计分析</el-menu-item>
+            <el-menu-item index="/system" v-if="isAdmin">系统管理</el-menu-item>
+          </el-sub-menu>
+        </el-menu>
+      </div>
+      <div class="user-info">
+        <el-dropdown>
+          <span class="user-dropdown">
+            <el-avatar :size="32">{{ userName }}</el-avatar>
+            <span>{{ userRole }}</span>
+            <i class="el-icon-arrow-down"></i>
+          </span>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="handleProfile">个人资料</el-dropdown-item>
+            <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+    </el-header>
     
-    <!-- 主内容区域 -->
-    <el-container>
-      <!-- 顶部栏 -->
-      <el-header>
-        <div class="header-left">
-          <el-button type="text" @click="toggleCollapse">
-            <i :class="isCollapsed ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
-          </el-button>
-        </div>
-        <div class="header-right">
-          <el-dropdown>
-            <span class="user-info">
-              <el-avatar :size="32">{{ userName }}</el-avatar>
-              <span>{{ userRole }}</span>
-              <i class="el-icon-arrow-down"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click="handleProfile">个人资料</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </el-header>
-      
-      <!-- 内容区域 -->
-      <el-main>
-        <router-view />
-      </el-main>
-    </el-container>
+    <!-- 内容区域 -->
+    <el-main>
+      <router-view />
+    </el-main>
   </el-container>
 </template>
 
@@ -90,6 +73,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '../store/auth'
+import { House, MugCup, OfficeBuilding } from '@element-plus/icons-vue'
 
 export default {
   name: 'Layout',
@@ -97,8 +81,6 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
-    
-    const isCollapsed = ref(false)
     
     // 计算当前活跃菜单
     const activeMenu = computed(() => {
@@ -118,11 +100,6 @@ export default {
       return authStore.user?.role === 'admin'
     })
     
-    // 切换侧边栏折叠状态
-    const toggleCollapse = () => {
-      isCollapsed.value = !isCollapsed.value
-    }
-    
     // 处理菜单选择
     const handleMenuSelect = (key) => {
       router.push(key)
@@ -134,6 +111,12 @@ export default {
       console.log('个人资料')
     }
     
+    // 处理退出登录
+    const handleLogout = () => {
+      authStore.logout()
+      router.push('/login')
+    }
+    
     // 初始化
     onMounted(() => {
       // 检查用户是否已登录
@@ -143,93 +126,77 @@ export default {
     })
     
     return {
-      isCollapsed,
       activeMenu,
       userName,
       userRole,
       isAdmin,
-      toggleCollapse,
       handleMenuSelect,
-      handleProfile
+      handleProfile,
+      handleLogout
     }
   }
 }
 </script>
 
 <style scoped>
-.logo {
-  height: 60px;
+.top-header {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #303133;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.user-info span {
-  font-size: 14px;
-}
-
-.el-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.el-aside {
   background-color: #303133;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 60px;
+}
+
+.logo {
+  margin-right: 30px;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+}
+
+.logo h1 {
+  font-size: 20px;
+  font-weight: bold;
   color: #fff;
-  transition: width 0.3s;
+  margin: 0;
+  white-space: nowrap;
 }
 
-.el-aside.collapsed {
-  width: 64px !important;
+.main-nav {
+  flex: 1;
 }
 
-.el-menu-vertical-demo {
-  height: 100%;
-  border-right: none;
+.el-menu-horizontal {
+  border-bottom: none;
 }
 
-.el-menu-item {
+.el-menu-horizontal .el-menu-item {
   height: 60px;
   line-height: 60px;
   margin: 0;
   padding: 0 20px;
 }
 
-.el-menu-item:hover,
-.el-menu-item.is-active {
-  color: #fff;
-  background-color: #409eff;
+.user-info {
+  margin-left: 20px;
 }
 
-.el-menu-item i {
-  font-size: 18px;
-  margin-right: 10px;
+.user-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.user-dropdown span {
+  font-size: 14px;
+}
+
+.el-main {
+  padding: 20px;
+  min-height: calc(100vh - 60px);
+  background-color: #f5f7fa;
 }
 </style>

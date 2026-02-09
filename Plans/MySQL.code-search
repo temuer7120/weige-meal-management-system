@@ -1,0 +1,18 @@
+# Query: SQLite
+
+7 个结果 - 4 文件
+
+Plans\开发测试计划文档.md:
+  411: - **MySQL**：内置
+  419: - **MySQL**：内置
+  428: - **MySQL**：内置
+  468: - **迁移工具**：使用SQLite的导出/导入功能
+
+Plans\数据安全设计文档.md:
+  137: - **存储方式**：数据库存储（MySQL）
+
+Plans\支付功能设计文档.md:
+  25: - **数据库**：MySQL，存储支付交易记录
+
+Plans\debugging_plan.md:
+  173: - **数据库**：MySQL

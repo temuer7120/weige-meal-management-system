@@ -1,9 +1,15 @@
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
-from .. import ingredients_bp
-from ...models.ingredient import Ingredient
-from ...models.supplier import Supplier
-from ... import db
+import sys
+import os
+
+# 添加项目根目录到Python路径
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from . import ingredients_bp
+from models.ingredient import Ingredient
+from models.supplier import Supplier
+from app import db
 
 @ingredients_bp.route('', methods=['GET'])
 @jwt_required()

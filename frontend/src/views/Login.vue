@@ -3,7 +3,7 @@
     <!-- 公司网站头部 -->
     <div class="company-header">
       <div class="company-logo">
-        <h1>WeigeCo</h1>
+        <h1>上海巍阁母婴护理中心</h1>
       </div>
       <div class="company-nav">
         <a href="#" class="nav-link">首页</a>
@@ -18,24 +18,24 @@
       <div class="login-register-container">
         <!-- 左侧：系统介绍 -->
         <div class="system-intro">
-          <h2>餐食管理系统</h2>
-          <p>专业的企业级餐食管理解决方案，为您提供高效、便捷的餐饮服务管理体验。</p>
+          <h2>服务项目</h2>
+          <p>专业的月子餐、母婴护理服务解决方案，为您和宝宝提供全方位的呵护与关爱。</p>
           <div class="features">
             <div class="feature-item">
               <el-icon class="feature-icon"><Suitcase /></el-icon>
-              <span>食材管理</span>
+              <span>月子护理</span>
             </div>
             <div class="feature-item">
-              <el-icon class="feature-icon"><MugCup /></el-icon>
-              <span>菜品管理</span>
+              <el-icon class="feature-icon"><Coffee /></el-icon>
+              <span>产后修复</span>
             </div>
             <div class="feature-item">
               <el-icon class="feature-icon"><Notebook /></el-icon>
-              <span>订单管理</span>
+              <span>新生儿护理</span>
             </div>
             <div class="feature-item">
               <el-icon class="feature-icon"><UserFilled /></el-icon>
-              <span>员工管理</span>
+              <span>母婴用品</span>
             </div>
           </div>
         </div>
@@ -69,11 +69,24 @@
             label-width="80px"
           >
             <el-form-item label="用户名" prop="username">
-              <el-input v-model="loginForm.username" placeholder="请输入用户名" prefix-icon="UserFilled"></el-input>
+              <el-input 
+                ref="loginUsernameRef"
+                v-model="loginForm.username" 
+                placeholder="请输入用户名" 
+                prefix-icon="UserFilled"
+                @keydown="handleLoginKeydown($event, loginPasswordRef)"
+              ></el-input>
             </el-form-item>
             
             <el-form-item label="密码" prop="password">
-              <el-input v-model="loginForm.password" type="password" placeholder="请输入密码" prefix-icon="Lock"></el-input>
+              <el-input 
+                ref="loginPasswordRef"
+                v-model="loginForm.password" 
+                type="password" 
+                placeholder="请输入密码" 
+                prefix-icon="Lock"
+                @keydown.enter="handleLogin"
+              ></el-input>
             </el-form-item>
             
             <el-form-item>
@@ -99,31 +112,55 @@
             label-width="80px"
           >
             <el-form-item label="用户名" prop="username">
-              <el-input v-model="registerForm.username" placeholder="请输入用户名" prefix-icon="UserFilled"></el-input>
+              <el-input 
+                ref="registerUsernameRef"
+                v-model="registerForm.username" 
+                placeholder="请输入用户名" 
+                prefix-icon="UserFilled"
+                @keydown="handleRegisterKeydown($event, registerPasswordRef)"
+              ></el-input>
             </el-form-item>
             
             <el-form-item label="密码" prop="password">
-              <el-input v-model="registerForm.password" type="password" placeholder="请输入密码" prefix-icon="Lock"></el-input>
+              <el-input 
+                ref="registerPasswordRef"
+                v-model="registerForm.password" 
+                type="password" 
+                placeholder="请输入密码" 
+                prefix-icon="Lock"
+                @keydown="handleRegisterKeydown($event, registerConfirmPasswordRef)"
+              ></el-input>
             </el-form-item>
             
             <el-form-item label="确认密码" prop="confirmPassword">
-              <el-input v-model="registerForm.confirmPassword" type="password" placeholder="请确认密码" prefix-icon="Check"></el-input>
+              <el-input 
+                ref="registerConfirmPasswordRef"
+                v-model="registerForm.confirmPassword" 
+                type="password" 
+                placeholder="请确认密码" 
+                prefix-icon="Check"
+                @keydown="handleRegisterKeydown($event, registerNameRef)"
+              ></el-input>
             </el-form-item>
             
             <el-form-item label="姓名" prop="name">
-              <el-input v-model="registerForm.name" placeholder="请输入姓名" prefix-icon="Avatar"></el-input>
+              <el-input 
+                ref="registerNameRef"
+                v-model="registerForm.name" 
+                placeholder="请输入姓名" 
+                prefix-icon="Avatar"
+                @keydown="handleRegisterKeydown($event, registerPhoneRef)"
+              ></el-input>
             </el-form-item>
             
             <el-form-item label="联系电话" prop="phone">
-              <el-input v-model="registerForm.phone" placeholder="请输入联系电话" prefix-icon="Phone"></el-input>
-            </el-form-item>
-            
-            <el-form-item label="角色" prop="role">
-              <el-select v-model="registerForm.role" placeholder="请选择角色">
-                <el-option label="管理员" value="admin"></el-option>
-                <el-option label="员工" value="employee"></el-option>
-                <el-option label="客户" value="customer"></el-option>
-              </el-select>
+              <el-input 
+                ref="registerPhoneRef"
+                v-model="registerForm.phone" 
+                placeholder="请输入联系电话" 
+                prefix-icon="Phone"
+                @keydown.enter="handleRegister"
+              ></el-input>
             </el-form-item>
             
             <el-form-item>
@@ -143,17 +180,47 @@
       </div>
     </div>
 
+    <!-- 网站内容区域 -->
+    <div class="website-content">
+      <!-- 首页内容 -->
+      <section class="home-section">
+        <h2>欢迎来到上海巍阁母婴护理中心</h2>
+        <p>专业的高端月子餐、母婴护理服务，为您和宝宝提供全方位的呵护与关爱。</p>
+      </section>
+      
+      <!-- 关于我们内容 -->
+      <section class="about-section">
+        <h3>关于我们</h3>
+        <p>上海巍阁母婴护理中心成立于2010年，是一家专注于母婴护理服务的高端机构，拥有专业的护理团队和完善的服务体系。</p>
+      </section>
+      
+      <!-- 服务项目内容 -->
+      <section class="services-section">
+        <h3>服务项目</h3>
+        <p>我们提供高端月子餐、月子护理、产后修复、新生儿护理、母婴用品等全方位服务，满足您和宝宝的各种需求。</p>
+      </section>
+      
+      <!-- 联系我们内容 -->
+      <section class="contact-section">
+        <h3>联系我们</h3>
+        <p>地址：上海市浦东新区张江高科技园区</p>
+        <p>电话：400-123-4567</p>
+        <p>邮箱：info@weige.com</p>
+      </section>
+    </div>
+
     <!-- 页脚 -->
     <div class="footer">
-      <p>&copy; {{ new Date().getFullYear() }} WeigeCo. 保留所有权利。</p>
+      <p>&copy; {{ new Date().getFullYear() }} 上海巍阁母婴护理中心. 保留所有权利。</p>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useAuthStore } from '../store/auth'
 import { useRouter } from 'vue-router'
+import { Suitcase, Coffee, Notebook, UserFilled } from '@element-plus/icons-vue'
 
 export default {
   name: 'Login',
@@ -166,11 +233,13 @@ export default {
     const error = ref('')
     const activeTab = ref('login')
     
+    // 登录表单数据
     const loginForm = reactive({
       username: '',
       password: ''
     })
     
+    // 登录表单验证规则
     const loginRules = {
       username: [
         { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -182,15 +251,16 @@ export default {
       ]
     }
     
+    // 注册表单数据
     const registerForm = reactive({
       username: '',
       password: '',
       confirmPassword: '',
       name: '',
-      phone: '',
-      role: ''
+      phone: ''
     })
     
+    // 注册表单验证规则
     const registerRules = {
       username: [
         { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -215,11 +285,49 @@ export default {
       ],
       phone: [
         { required: true, message: '请输入联系电话', trigger: 'blur' }
-      ],
-      role: [
-        { required: true, message: '请选择角色', trigger: 'change' }
       ]
     }
+    
+    // 表单引用
+    const loginUsernameRef = ref(null)
+    const loginPasswordRef = ref(null)
+    const registerUsernameRef = ref(null)
+    const registerPasswordRef = ref(null)
+    const registerConfirmPasswordRef = ref(null)
+    const registerNameRef = ref(null)
+    const registerPhoneRef = ref(null)
+    
+    // 回车键跳转函数
+    const handleLoginKeydown = (e, nextRef) => {
+      if (e.key === 'Enter') {
+        nextRef.value.focus()
+      }
+    }
+    
+    const handleRegisterKeydown = (e, nextRef) => {
+      if (e.key === 'Enter') {
+        nextRef.value.focus()
+      }
+    }
+    
+    // 自动清空表单
+    const resetForms = () => {
+      // 清空登录表单
+      loginForm.username = ''
+      loginForm.password = ''
+      
+      // 清空注册表单
+      registerForm.username = ''
+      registerForm.password = ''
+      registerForm.confirmPassword = ''
+      registerForm.name = ''
+      registerForm.phone = ''
+    }
+    
+    // 组件挂载时清空表单
+    onMounted(() => {
+      resetForms()
+    })
     
     const handleLogin = async () => {
       // 表单验证
@@ -281,13 +389,22 @@ export default {
       loginForm,
       loginRules,
       loginFormRef,
+      loginUsernameRef,
+      loginPasswordRef,
       registerForm,
       registerRules,
       registerFormRef,
+      registerUsernameRef,
+      registerPasswordRef,
+      registerConfirmPasswordRef,
+      registerNameRef,
+      registerPhoneRef,
       loading,
       error,
       handleLogin,
-      handleRegister
+      handleRegister,
+      handleLoginKeydown,
+      handleRegisterKeydown
     }
   }
 }
@@ -309,6 +426,10 @@ export default {
   padding: 20px 50px;
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.company-logo {
+  margin-right: 60px;
 }
 
 .company-logo h1 {
@@ -450,12 +571,65 @@ export default {
   font-size: 14px;
 }
 
+/* 网站内容区域 */
+.website-content {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  margin: 20px 0;
+}
+
+.home-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.home-section h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.home-section p {
+  font-size: 16px;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-section, .services-section, .contact-section {
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.about-section h3, .services-section h3, .contact-section h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #409EFF;
+  padding-bottom: 10px;
+}
+
+.about-section p, .services-section p, .contact-section p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .company-header {
     flex-direction: column;
     gap: 15px;
     padding: 15px;
+  }
+  
+  .company-logo h1 {
+    font-size: 20px;
   }
   
   .login-register-container {
@@ -473,6 +647,14 @@ export default {
   
   .auth-card {
     padding: 30px 20px;
+  }
+  
+  .website-content {
+    padding: 20px 15px;
+  }
+  
+  .home-section h2 {
+    font-size: 24px;
   }
 }
 </style>

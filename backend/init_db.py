@@ -13,7 +13,7 @@ import sys
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'root',
+    'password': 'MySQL',
     'database': 'meal_system'
 }
 

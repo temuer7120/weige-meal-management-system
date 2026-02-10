@@ -96,9 +96,6 @@ router.beforeEach((to, from, next) => {
     next('/login')
   } else if (to.meta.requiresAdmin && !isAdmin) {
     next('/')
-  } else if (to.path === '/login' && isAuthenticated) {
-    // 已登录用户不能访问登录页面
-    next('/')
   } else {
     next()
   }

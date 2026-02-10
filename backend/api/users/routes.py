@@ -1,11 +1,17 @@
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash
-from .. import users_bp
-from ...models.user import User
-from ...models.customer import Customer
-from ...models.employee import Employee
-from ... import db
+import sys
+import os
+
+# 添加项目根目录到Python路径
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from . import users_bp
+from models.user import User
+from models.customer import Customer
+from models.employee import Employee
+from app import db
 
 @users_bp.route('', methods=['GET'])
 @jwt_required()
